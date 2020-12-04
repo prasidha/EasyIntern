@@ -1,3 +1,16 @@
+.modal__open{
+    outline: 0;
+    width:500px;
+    height: 500px;
+    margin:5rem auto;
+    background-color: #fff;
+    box-shadow: 1px 2px 3px 5px grey;
+}
+.form_{
+    
+    margin:2rem ;
+}
+
 .posts{
     display: flex;
     justify-content: center;
@@ -26,9 +39,14 @@
 .post__intern{
     width: 95%;
     margin: auto;
-    height: 100vh;
+    /* height: 100vh; */
 
 }
 .grid{
     padding-top:5rem;
+}
+.no__post{
+    text-align:center;
+    font-size:50px;
+    
 }

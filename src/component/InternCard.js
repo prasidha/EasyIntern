@@ -19,7 +19,7 @@ function InternCard(props) {
              <MoreVertIcon />
            </IconButton>
          }
-         title="Shrimp and Chorizo Paella"
+         title={props.post.cname}
          subheader="September 14, 2016"
        />
              <CardContent>
@@ -27,11 +27,11 @@ function InternCard(props) {
               <Typography>
                   kathmandu,nepal
                </Typography>
-               <Typography>{props.arr}</Typography>
+               <Typography>vacancy :{props.post.vacancy}</Typography>
 
             
-
-              <Typography>deadline</Typography>
+               <Typography> skills :{props.post.description}</Typography>
+              <Typography>Deadline : {props.post.deadline}</Typography>
 
              </CardContent>
 
