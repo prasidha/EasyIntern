@@ -1,4 +1,4 @@
-import React ,{useState} from 'react';
+import React ,{ useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -12,9 +12,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Images from '../component/images/easyintern.png'
 import { useHistory } from 'react-router-dom';
-// import {auth,db} from '../firebase'
+import {useAuth} from '../context/AuthContext'
 import Copyright from './Copyright'
-
+import Alert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,25 +43,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SigninPage({user}) {
+  
     const history =useHistory();
     const classes = useStyles();
     const[email,setEmail]=useState();
     const [password,setPassword]= useState();
+    const[error,setError]=useState('')
+    const[loading,setLoading]=useState()
+    const{ login } =useAuth()
   
-  const signIn = (e) => {
+   async function signIn(e){
     e.preventDefault();
 
-    // auth 
-    //     .signInWithEmailAndPassword(email,password)
-    //     .then((auth) =>{
-    //       if(auth.user){
-    //         history.push('/')
-    //       }
-            
-    //     })
-        
-    //     .catch(error => alert(error.message))
-        
+    try{
+      setError("")
+      setLoading(true)
+      await login(email,password)
+      history.push('/')
+    }
+    catch{
+      setError("email or password is incorrect")
+    }
+    
+   setLoading(false)
+     
 }
 
 
@@ -70,7 +75,10 @@ export default function SigninPage({user}) {
       <CssBaseline />
       <div className={classes.paper}>
         <img src={Images} alt="img" onClick={() => history.push("/")} className={classes.image}/>
-        
+        <Typography component="h1" variant="h5">
+          Sign in
+          {error && <Alert severity="error">{error}</Alert>}
+        </Typography>
         <form className={classes.form} noValidate onSubmit={signIn}>
           <TextField
             variant="outlined"
@@ -116,7 +124,7 @@ export default function SigninPage({user}) {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/internSeeker_register" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

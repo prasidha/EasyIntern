@@ -1,12 +1,15 @@
-import React ,{useState}from 'react'
+import React ,{useEffect, useState}from 'react'
 import Navbar from './Navbar'
 import BackgroungImage from '../component/images/intern.jpg'
 import './PostIntern.css'
 import {Button,Grid, Modal,TextField} from '@material-ui/core'
 import InternCard from "../component/InternCard"
+import {db} from '../firebase'
+import firebase from 'firebase'
+import {useAuth} from '../context/AuthContext'
 
 function PostIntern() {
-   const[user,setUser] =useState(true);
+  
    const [open ,setOpen] =useState(false)
    const [getPost, setGetPost] = useState({
     cname:'',
@@ -15,15 +18,10 @@ function PostIntern() {
     description:'',
    })
    const [posts, setPosts] = useState([]);
+   const {userData}=useAuth();
 
    const handleOpen =()=>{
-     if(user){
-      setOpen (true);
-     }
-     else{
-      alert("plz register first")
-     }
-    
+      setOpen(true);  
 }
 
   const handleClose=()=>{
@@ -43,11 +41,27 @@ function PostIntern() {
   }
 
   const postIntern = () =>{
-    
-      setPosts([...posts,getPost]);
+      db.collection("internPosts").add({
+            internPost:getPost,
+            timestamp:firebase.firestore.FieldValue.serverTimestamp()
+            
+      })
+      handleClose()
+      // setPosts([...posts,getPost]);
       setGetPost("");
+     
 
   }
+
+  useEffect(()=>
+      {
+        db.collection("internPosts").onSnapshot(snapshot => 
+          {
+               setPosts(snapshot.docs.map(doc => ({id:doc.id,internPost:doc.data()})))
+         })
+      }
+  )
+  
     
   return (
     <>
@@ -112,17 +126,21 @@ function PostIntern() {
    </Modal>
     <div className="posts">
        <img src={BackgroungImage} alt="img" className="image"/> 
-       <button className="btn" onClick={handleOpen}>Post an Intern</button>   
+      {userData?.isStudent===false && <button onClick={handleOpen} className="btn">post an intern </button>}
+       {console.log("button",userData)}
+
     </div>
 </div>
     <div className="post__intern">
     <div className="grid">
     <Grid container spacing={1}>
     {
-        posts.map((post)=>
+        posts.map(({internPost,id})=> 
         <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
                 <InternCard
-                post={post}
+                internPost={internPost}
+                key={id}
+                
             />
         </Grid>
         )

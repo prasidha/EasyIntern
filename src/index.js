@@ -5,9 +5,11 @@ import App from './App';
 // import Test from './component/Test'
 
 ReactDOM.render(
+ 
   <React.StrictMode>
     <App/>
   </React.StrictMode>,
+  
   document.getElementById('root')
 );
 

@@ -12,7 +12,25 @@ const firebaseConfig = {
   };
 
 
+  const firebaseApp = firebase.initializeApp (firebaseConfig);
+  const auth =firebase.auth()
+  const db = firebaseApp.firestore();
+  export {db ,auth} ;
 
+
+
+  // export async function isStudent(){
+  //   const types=[]
+  //   return  db.collection("userdata").get().then((querySnapshot) => { 
+  //     querySnapshot.forEach((doc) => {
+  //        const data=doc.data()
+  //        console.log("dataaaaa",data)
+  //        types.push(data)
+  //       //  console.log("heyyyy",currentUser.types)
+  //     }); 
+    
+  //   });
+  // }
   
 
 
