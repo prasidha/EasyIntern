@@ -1,4 +1,4 @@
-import React ,{useState } from 'react';
+import React ,{useState}from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -8,20 +8,27 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Images from '../component/images/easyintern.png';
+import Images from '../images/easyintern.png';
 import { useHistory } from 'react-router-dom';
-import {auth ,db} from '../firebase'
+import {db,auth} from '../firebase'
 import firebase from 'firebase'
-import Copyright from './Copyright'
 import { useAuth } from "../context/AuthContext"
 import Alert from '@material-ui/lab/Alert';
 
-
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="/">
+        Easy Intern
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const useStyles = makeStyles((theme) => ({
-  paper1 :{
-    backgroundColor:'white',
-  },
   paper: {
     marginTop: theme.spacing(1),
     display: 'flex',
@@ -31,11 +38,10 @@ const useStyles = makeStyles((theme) => ({
   image: {
     marginTop: theme.spacing(1),
     width:150,
-    cursor:'on'
   },
 
   form: {
-    width: '100%',
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -46,83 +52,84 @@ const useStyles = makeStyles((theme) => ({
 export default function StudentRegister() {
     const history =useHistory();
     const classes = useStyles();
-    const[fname,setFname] =useState();
-    const[lname,setLname]=useState();
+    const[compName,setCompName]=useState();
+    const [compAddress,setCompAddress]=useState();
     const [email,setEmail]=useState();
     const [password ,setPassword]=useState();
     const [confirmPassword,setConfirmPassword]=useState();
-    const[error,setError]=useState("")
-    const[loading,setLoading]=useState(false)
-    const {studentSignUp} =useAuth()
+    const[error,setError]=useState('')
+    const[loading,setLoading]=useState()
+    const{companySignUp} =useAuth()
 
-
-  async function onSubmitForm(e) {
-  e.preventDefault();
-
+ async function onSubmitForm(e) {
+    e.preventDefault();
+    
   if(password !== confirmPassword){
-      return setError("passwords donot match..")   
-  }
- 
-  try{
-    setError("")
-    setLoading(true)
-    await studentSignUp(email,password)
-    history.push ('/')
-    db.collection("userdata").doc(auth.currentUser.uid).set({
-      student_id:auth.currentUser.uid,
-      timestamp:firebase.firestore.FieldValue.serverTimestamp(),
-      email:email,
-      firstName:fname,
-      lastName:lname,
-      isStudent:true
-  })
-  }
-  catch{
-    setError("failed to create account")
-  }
-  setLoading(false)
- 
-        
-     }
+    return setError("passwords donot match..")   
+ }
 
-  
+    try{
+      setError("")
+      setLoading(true)
+      await companySignUp(email,password)
+      history.push('/')
+      db.collection("userdata").doc(auth.currentUser.uid).set({
+        company_id:auth.currentUser.uid,
+        timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+        email:email,
+        companyName:compName,
+        companyAddress:compAddress,
+        isStudent:false,
+    })
+   
+    }
+    catch{
+      setError("failed to create account")
+    }
+    
+   setLoading(false)
+    
+        
+}
+
 
   return (
-    <Container component="main" maxWidth="xs" className={classes.paper1}>
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <img src ={Images} alt="img" className={classes.image} onClick={()=> history.push("/")}/>
         <Typography component="h1" variant="h5">
-          Student Register
-          {error && <Alert severity="error">{error}</Alert>}
+        {error && <Alert severity="error">{error}</Alert>}
+          Company Register
         </Typography>
         <form className={classes.form} noValidate onSubmit ={onSubmitForm}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-                onChange={e =>{setFname(e.target.value)}}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-                onChange={e =>{setLname(e.target.value)}}
-              />
-            </Grid>
+           
+           
+
+            <Grid item xs={12} >
+            <TextField
+              autoComplete
+              name="company Name"
+              variant="outlined"
+              required
+              fullWidth
+              label="Company Name"
+              autoFocus
+              onChange={e =>{setCompName(e.target.value)}}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              label="Company Address"
+              name="Company Address"
+              autoComplete
+              onChange={e =>{setCompAddress(e.target.value)}}
+            />
+          </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -143,6 +150,7 @@ export default function StudentRegister() {
                 name="password"
                 label="Password"
                 type="password"
+                id="password"
                 autoComplete="current-password"
                 onChange ={e=>{setPassword(e.target.value)}}
               />
@@ -156,6 +164,7 @@ export default function StudentRegister() {
                 name="confirm-password"
                 label="confirm-Password"
                 type="password"
+                id="confirm-password"
                 autoComplete="current-password"
                 onChange ={e=>{setConfirmPassword(e.target.value)}}
               />
@@ -173,7 +182,7 @@ export default function StudentRegister() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/signin" variant="body2">
+              <Link href="/sign_in" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

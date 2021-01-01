@@ -4,13 +4,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
-import images from '../component/images/easyintern.png'
+import images from './images/easyintern.png'
 import { Link, useHistory } from 'react-router-dom'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import {db,auth} from '../firebase'
-import {useAuth} from '../context/AuthContext'
+import {db,auth} from './firebase'
+import {useAuth} from './context/AuthContext'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import {userInfo} from './firebase'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  menu:{
+    marginTop:'2rem',
+    
+  }
 }));
 
 
@@ -62,39 +68,42 @@ export default function ButtonAppBar() {
   setUserData(false)
    
 }, [currentUser])
-
-console.log("userdata",userData?.isStudent)  
+console.log(currentUser,"currentUser")
+console.log(userData,"User")
 
 if(userData === undefined){
- return <h1>loading...</h1>
+  return <h1>Loading...</h1>
 }
+  
+
+
   return (
     <div className={classes.root}>
       <AppBar position="static" color="color">
         <Toolbar>
            <img src={images} alt="img" className={classes.img} onClick={() => history.push("/")}/>
           <Typography variant="h6" className={classes.title}>
-              {userData.email }
+             
             
          </Typography>
          <Link to="/" style={{textDecoration:'none'}}> <Button color="color" variant="contained" className={classes.menuButton}>Home</Button></Link>
-         <Link to="/postintern" style={{textDecoration:'none'}}> <Button color="color" variant="contained" className={classes.menuButton}>Post</Button></Link>
-    { !userData && <Link to="/signin" style={{textDecoration:'none'}}>  <Button color="primary" variant="contained" className={classes.menuButton}>Sign in</Button></Link> }  
-   {!userData && <Link style={{textDecoration:'none'}}> <Button color ="primary" variant="contained" onClick={handleClick} className={classes.menuButton}>
+{( userData.isStudent === false) ?   <Link to="/postintern" style={{textDecoration:'none'}}> <Button color="color" variant="contained" className={classes.menuButton}>Post</Button></Link>:'' }
+   { !currentUser && <Link to="/signin" style={{textDecoration:'none'}}>  <Button color="primary" variant="contained" className={classes.menuButton}>Sign in</Button></Link> }
+  {!currentUser && <Button color ="primary" variant="contained" onClick={handleClick} className={classes.menuButton}>
     Register
-  </Button></Link> }
+  </Button> }
   <Menu
     anchorEl={anchorEl}
     open={Boolean(anchorEl)}
     onClose={handleClose}
+    className={classes.menu}
   >
-    <Link to ="/signup"  style={{textDecoration:'none'}}><MenuItem onClick={handleClose}>Student Register</MenuItem></Link> 
-    <Link to ="/comp" style={{textDecoration:'none'}}><MenuItem onClick={handleClose}>Company Register</MenuItem></Link>
+    <Link to ="/studentRegister"  style={{textDecoration:'none'}}><MenuItem onClick={handleClose}>Student Register</MenuItem></Link> 
+    <Link to ="/companyRegister" style={{textDecoration:'none'}}><MenuItem onClick={handleClose}>Company Register</MenuItem></Link>
 
   </Menu>
-  
-       {userData.isStudent === true && <Link to="/users" style={{textDecoration:'none'}}> <Button color="primary" variant="contained" className={classes.menuButton}><AccountCircleIcon/> {userData.firstName}</Button></Link>}
-       {userData.isStudent === false && <Link to="/companydashboard" style={{textDecoration:'none'}}> <Button color="primary" variant="contained" className={classes.menuButton}>{userData.CompanyName}<AccountCircleIcon/></Button></Link>}
+   { userData.isStudent === true  && <Link to="/studentdashboard" style={{textDecoration:'none'}}> <Button color="primary" variant="contained" className={classes.menuButton}><AccountCircleIcon/> {userData.firstName}  {userData.lastName}</Button></Link>}
+{ userData.isStudent === false &&  <Link to="/companydashboard" style={{textDecoration:'none'}}> <Button color="primary" variant="contained" className={classes.menuButton}>{userData.companyName}<AccountCircleIcon/></Button></Link>}
         </Toolbar>
       </AppBar>
     </div>

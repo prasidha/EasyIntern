@@ -1,14 +1,17 @@
 .modal__open{
     outline: 0;
-    width:500px;
-    height: 500px;
-    margin:5rem auto;
-    background-color: #fff;
+    width:600px;
+    height: 650px;
+    margin:1rem auto;
+    background-color:lightblue;
     box-shadow: 1px 2px 3px 5px grey;
+    overflow: auto;
 }
 .form_{
     
-    margin:2rem ;
+    margin:1rem ;
+    font-size:15px;
+    
 }
 
 .posts{

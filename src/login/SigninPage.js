@@ -10,10 +10,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Images from '../component/images/easyintern.png'
+import Images from '../images/easyintern.png'
 import { useHistory } from 'react-router-dom';
 import {useAuth} from '../context/AuthContext'
-import Copyright from './Copyright'
 import Alert from '@material-ui/lab/Alert';
 
 
@@ -49,7 +48,7 @@ export default function SigninPage({user}) {
     const[email,setEmail]=useState();
     const [password,setPassword]= useState();
     const[error,setError]=useState('')
-    const[loading,setLoading]=useState()
+    const[loading,setLoading]=useState(false)
     const{ login } =useAuth()
   
    async function signIn(e){
@@ -85,7 +84,6 @@ export default function SigninPage({user}) {
             margin="normal"
             required
             fullWidth
-            id="email"
             label="Email Address"
             name="email"
             autoComplete="email"
@@ -100,7 +98,6 @@ export default function SigninPage({user}) {
             name="password"
             label="Password"
             type="password"
-            id="password"
             autoComplete="current-password"
             onChange={e => {setPassword(e.target.value)}}
           />
@@ -131,9 +128,7 @@ export default function SigninPage({user}) {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
+     
     </Container>
   );
 }

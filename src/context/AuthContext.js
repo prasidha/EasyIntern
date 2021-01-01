@@ -11,6 +11,9 @@ export function useAuth (){
 export function AuthProvider({children}) {
     const[currentUser,setCurrentUser]=useState('')
     const [userData,setUserData] = useState()
+    const[isLoggedIn,setIsLoggedIn]=useState(false)
+    const [getData,setGetData]=useState([]);
+   
 
     const value={
         currentUser,
@@ -19,7 +22,11 @@ export function AuthProvider({children}) {
         login,
         logOut,
         userData,
-        setUserData
+        setUserData,
+        getData,
+        setGetData,
+        setIsLoggedIn,
+
     }
 
     function studentSignUp(email,password){
@@ -34,21 +41,29 @@ export function AuthProvider({children}) {
          return auth.signInWithEmailAndPassword(email,password)
     }
 
-    function logOut(){
-        auth.signOut()
+    function logOut(currentUser){
+        if(currentUser){
+            auth.signOut()
+            setIsLoggedIn(false)
+            setCurrentUser(null)
+        }
+        
     }
     useEffect(() => {
-       const unsubscribe = auth.onAuthStateChanged(user =>{
-           setCurrentUser(user)
-           
+    auth.onAuthStateChanged(user =>{
+           if(user){
+
+            setIsLoggedIn(true)
+            setCurrentUser(user) 
+           }
+           else{
+               setCurrentUser(null)
+               setIsLoggedIn(false)
+           }
+        
        })
-       return unsubscribe
+      
     }, [])
-
-
-    
-
-
 
     return (
        <AuthContext.Provider value={value}>
