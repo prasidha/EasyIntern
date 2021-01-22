@@ -11,6 +11,7 @@ import StudentDashboard from './StudentDashboard/StudentDashboard'
 function App() {
   return (
     <AuthProvider>
+<<<<<<< HEAD
     <div className="App">
      <Router>
            <Switch>
@@ -30,3 +31,26 @@ function App() {
 
 export default App;
 
+=======
+      <div className="App">
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/signin" component={SigninPage} />
+            <Route exact path="/company" component={CompanyRegister} />
+            <Route exact path="/student" component={StudentRegister} />
+            <Route exact path="/companydashboard" component={Notifications} />
+            <Route
+              exact
+              path="/studentDashboard"
+              component={StudentDashboard}
+            />
+          </Switch>
+        </Router>
+      </div>
+    </AuthProvider>
+  );
+}
+
+export default App;
+>>>>>>> 361b71351ef80fe1fdb9f6f15ce2f0b51195d1e0

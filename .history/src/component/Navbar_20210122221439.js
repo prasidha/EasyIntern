@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import { Link, useHistory } from "react-router-dom";
 import images from "../images/easyintern.png";
 import { useAuth } from "../context/AuthContext";
+import { db } from "../firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,6 +88,7 @@ export default function ButtonAppBar() {
                 color="secondary"
               >
                 company
+                {userData.companyName}
               </Button>
             </Link>
           )}

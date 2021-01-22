@@ -69,13 +69,19 @@ export function AuthProvider({ children }) {
     setLoading(false);
   };
 
-
+  //   useEffect(() => {
+  //     if (currentUser && currentUser.uid) {
+  //       fetchUserData();
+  //     } else {
+  //       setUserData(false);
+  //     }
+  //   }, [currentUser]);
 
   if (userData === undefined) {
     return <CircularProgress />;
   }
 
+  //   if () {
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
 
+  

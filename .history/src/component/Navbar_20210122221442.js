@@ -87,6 +87,7 @@ export default function ButtonAppBar() {
                 color="secondary"
               >
                 company
+                {userData.companyName}
               </Button>
             </Link>
           )}

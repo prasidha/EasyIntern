@@ -69,13 +69,26 @@ export function AuthProvider({ children }) {
     setLoading(false);
   };
 
-
+  //   useEffect(() => {
+  //     if (currentUser && currentUser.uid) {
+  //       fetchUserData();
+  //     } else {
+  //       setUserData(false);
+  //     }
+  //   }, [currentUser]);
 
   if (userData === undefined) {
     return <CircularProgress />;
   }
 
+  //   if () {
+
+<<<<<<< HEAD
+
+  
+=======
+  //   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
-
+>>>>>>> 361b71351ef80fe1fdb9f6f15ce2f0b51195d1e0

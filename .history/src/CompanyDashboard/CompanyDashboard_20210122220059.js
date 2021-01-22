@@ -7,8 +7,15 @@ function CompanyDashboard() {
   const { currentUser, userData } = useAuth();
   console.log("currentUserUUUUUUUUUUU", currentUser);
   console.log("user dataDDDDDDDDD", userData);
-  const history =useHistory()
-  console.log(userData,"udataaaaa")
+
+
+  
+    
+     console.log(userData,"userData")
+     console.log("currentUserUUUUUUUUUUU", currentUser);
+
+     const history =useHistory()
+     console.log(userData,"udataaaaa")
 
      useEffect(() => {}, [currentUser]);
    

@@ -75,6 +75,10 @@ export function AuthProvider({ children }) {
     return <CircularProgress />;
   }
 
+  //   if () {
+
+
+  //   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

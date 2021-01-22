@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CompanyCard(props) {
+<<<<<<< HEAD
     const classes = useStyles()
     const {userData} = useAuth()
 
@@ -57,6 +58,24 @@ function CompanyCard(props) {
     return (
         <Box  color="black" bgcolor="white" mt={-5} ml={10} mb={6} py={2} className={classes.wrapper}>
         <Grid container alignItems="center" justify="center">
+=======
+  const classes = useStyles();
+  const { userData } = useAuth();
+  if (props.postedBy !== userData.company_id) {
+    return false;
+  }
+  return (
+    <Box
+      color="black"
+      bgcolor="white"
+      mt={-5}
+      ml={10}
+      mb={6}
+      py={2}
+      className={classes.wrapper}
+    >
+      <Grid container alignItems="center" justify="center">
+>>>>>>> 361b71351ef80fe1fdb9f6f15ce2f0b51195d1e0
         <Grid item xs margin={2}>
           <Typography variant="subtitle1">{props.title}</Typography>
           <Typography variant="subtitle1" className={classes.cName}>

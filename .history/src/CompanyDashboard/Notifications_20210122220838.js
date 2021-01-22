@@ -53,9 +53,7 @@ function Notifications() {
   console.log(getData, "getData...");
 
   useEffect(() => {}, [userData, getData]);
-if(getData.length === 0){
-    return <h1>loading...</h1>
-}
+if(getData.length === 0)
   return (
     <>
       <CompanyDashBoard />
