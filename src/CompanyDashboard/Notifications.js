@@ -1,30 +1,46 @@
 import React ,{ useState , useEffect }from 'react'
-import Card from '@material-ui/core/Card'
+// import Card from '@material-ui/core/Card'
 import CompanyDashBoard from './CompanyDashboard'
 import CompanyCard from './CompanyCard'
 import {db} from '../firebase'
 import {useAuth} from '../context/AuthContext'
+import { CircularProgress } from '@material-ui/core'
 
 function Notifications() {
- 
- const {userData, getData} =useAuth()
+ const[postedData,setPostedData] = useState([])
+ const { userData, getData ,currentUser ,setGetData } =useAuth()
  console.log(getData,"getData...")
 
- useEffect(() => {
+ const fetchData = async() => {
+    
+  const req = await db.collection("internData").orderBy("postedOn","desc").get()
+  const temp = req.docs.map(job =>({ 
+    ...job.data(),
+    id:job.id,
+    postedOn:job.data().postedOn.toString()
 
- },[userData,getData])
+  }))
+  setPostedData(temp);
+ 
+ }
+ useEffect(() =>{fetchData()},[userData,postedData])
 
+
+// if(postedData.length === 0){
+//     return <h1>loading...</h1>
+// }
     return (
         <>
         <CompanyDashBoard/>  
-  {
-getData.length !== 0 && getData.map (data =>
-  <CompanyCard key={data} {...data}/>)
-        }
+        {
+        postedData.map (data =>
+        <CompanyCard key={data} {...data}/>)
+                }
+        </>
   )
                
-       </>
-    )
+      
+    
 }
 
 export default Notifications

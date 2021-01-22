@@ -6,7 +6,7 @@ import {useHistory} from 'react-router-dom'
 import { db } from '../firebase'
 
 function StudentDashboard() {
-  const {logOut,currentUser,setIsLoggedIn,userData ,apply,setApply} =useAuth()
+  const { currentUser, userData, apply, setApply } =useAuth()
   const history =useHistory()
 const [data,setData] = useState([])
 

@@ -5,13 +5,16 @@ import { useHistory } from 'react-router-dom'
 
 
 function HomePage() {
-    const {currentUser,userData} = useAuth()
-    const history =useHistory()
-     console.log(userData)
-   
-    useEffect(() => {
+    const { currentUser, userData } = useAuth()
     
-    }, [currentUser])
+     console.log(userData,"userData")
+     console.log("currentUserUUUUUUUUUUU", currentUser);
+
+     const history =useHistory()
+     console.log(userData,"udataaaaa")
+
+     useEffect(() => {}, [currentUser]);
+   
     return (
         <Box bgcolor="primary.main" py={10} color="white">
             <Grid container justify="center">
