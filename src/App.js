@@ -5,8 +5,8 @@ import { AuthProvider } from './context/AuthContext'
 import CompanyRegister from './Register/CompanyRegister'
 import StudentRegister from './Register/StudentRegister'
 import Home from './Home'
-import Notifications from './CompanyDashboard/Notifications'
 import StudentDashboard from './StudentDashboard/StudentDashboard'
+import CompanyDashboard from './CompanyDashboard/CompanyDashboard'
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
               <Route exact path="/signin" component={SigninPage}/>
               <Route exact path="/company" component={CompanyRegister}/>
               <Route exact path="/student" component={StudentRegister}/>
-              <Route exact path="/companydashboard" component={Notifications} />
+              <Route exact path="/companydashboard" component={CompanyDashboard} />
               <Route exact path ="/studentDashboard" component={StudentDashboard}/>
            </Switch>
      </Router>

@@ -54,7 +54,9 @@ function CompanyCard(props) {
         return false
     }
     
+  
     return (
+      
         <Box  color="black" bgcolor="white" mt={-5} ml={10} mb={6} py={2} className={classes.wrapper}>
         <Grid container alignItems="center" justify="center">
         <Grid item xs margin={2}>

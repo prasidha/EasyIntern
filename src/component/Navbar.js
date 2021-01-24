@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import { Link, useHistory } from "react-router-dom";
 import images from "../images/easyintern.png";
 import { useAuth } from "../context/AuthContext";
+import { CircularProgress } from "@material-ui/core";
+import { auth, db } from "../firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,13 +27,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function ButtonAppBar() {
   const classes = useStyles();
   const history = useHistory();
+  const [loading, setLoading] = useState(false)
   const {
     currentUser,
     userData,
     logOut,
+    setUserData,
+    fetchUserData
+
   } = useAuth();
 
   const handleLogout = () => {
@@ -39,6 +46,28 @@ export default function ButtonAppBar() {
     history.push("/");
   };
 
+  // const fetchUserData = async (user) => {
+  //   setLoading(true);
+  //   const data = await db.collection("userdata").doc(currentUser.uid).get();
+  //   const temp = data.data();
+  //   setUserData(temp ?? {});
+  //   setLoading(false);
+  // };
+
+  useEffect(() => {
+    if (currentUser && currentUser.uid) {
+      fetchUserData(currentUser);
+    } else {
+      setUserData(false);
+    }
+  }, [currentUser]);
+
+  // if (userData === undefined) {
+  //   // return <CircularProgress />;
+  //   return <h1>loading................................</h1>
+  // }
+
+  
   return (
     <div className={classes.root}>
       <AppBar position="static" color="secondary.main">
@@ -61,7 +90,7 @@ export default function ButtonAppBar() {
               Home
             </Button>
           </Link>
-          {userData.isStudent === true && (
+          {userData && userData.isStudent === true && (
             <Link to="/studentDashboard" style={{ textDecoration: "none" }}>
               {" "}
               <Button
@@ -75,11 +104,8 @@ export default function ButtonAppBar() {
             </Link>
           )}
 
-          {userData.isStudent === false && (
+          {userData && userData.isStudent === false && (
             <Link to="/companyDashboard" style={{ textDecoration: "none" }}>
-
-            {" "}
-
               <Button
                 variant="outlined"
                 disableElevation

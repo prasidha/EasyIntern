@@ -1,11 +1,16 @@
 import React ,{ useState , useEffect } from 'react'
-import {Dialog ,DialogContent ,DialogActions, DialogTitle, IconButton ,Box, Typography ,Button} from '@material-ui/core'
+import { Dialog, DialogContent, DialogActions, DialogTitle, IconButton, Box, Typography, Button } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
-import {db} from '../firebase'
+import { db } from '../firebase'
+import { useAuth } from '../context/AuthContext'
 
 function JobViewModal(props) {
 
-   
+   const { userData } = useAuth();
+
+    // useEffect(()=>{
+    //     db.collection("notificaion").doc().get()
+    // })
    
     return (
         <Dialog open={!!Object.keys(props.data).length} fullWidth>
@@ -53,9 +58,9 @@ function JobViewModal(props) {
             </DialogContent>
 
             <DialogActions>
-            <Button variant="outlined" color="secondary" onClick={props.onApplyIntern}>
-            Apply
-            </Button>
+           {userData && userData.isStudent === true ?  <Button variant="outlined" color="secondary" onClick={props.onApplyIntern}>
+           Apply
+            </Button> : "sign in to apply this post" }
             </DialogActions>
           
         </Dialog>

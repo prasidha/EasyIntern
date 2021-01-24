@@ -27,6 +27,9 @@ export function AuthProvider({ children }) {
     setGetData,
     apply,
     setApply,
+    fetchInternPost,
+    fetchUserData
+    
   };
 
   function studentSignUp(email, password) {
@@ -46,6 +49,9 @@ export function AuthProvider({ children }) {
       auth.signOut();
     }
   }
+
+ 
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       console.log(user, "user");
@@ -54,6 +60,9 @@ export function AuthProvider({ children }) {
         // setIsLoggedIn(true)
         setCurrentUser(user);
         fetchUserData(user);
+        fetchInternPost()
+        
+        
       } else {
         //    setIsLoggedIn(false)
         setCurrentUser(null);
@@ -61,7 +70,21 @@ export function AuthProvider({ children }) {
     });
   }, []);
 
-  const fetchUserData = async (user) => {
+  async function fetchInternPost () {
+    const req = await db
+    .collection("internData")
+    .orderBy("postedOn", "desc")
+    .limit(5)
+    .get();
+  const temp = req.docs.map((job) => ({
+    ...job.data(),
+    id: job.id,
+    postedOn: job.data().postedOn.toString(),
+  }));
+  setGetData(temp);
+  }
+
+ async function fetchUserData(user) {
     setLoading(true);
     const data = await db.collection("userdata").doc(user.uid).get();
     const temp = data.data();
@@ -69,13 +92,7 @@ export function AuthProvider({ children }) {
     setLoading(false);
   };
 
-
-
-  if (userData === undefined) {
-    return <CircularProgress />;
-  }
-
-
+ 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
